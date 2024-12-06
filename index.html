@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Polysphere puzzle</h1>
+
+    <p>Pick the piece, transform them if you want, then change view, press some sphere to put piece in the board</p>
+
+    <div id="pieces" class="pieces-holder">
+        <!-- Pieces will be added here -->
+    </div>
+
+    <div id="scene">
+
+    </div>
+
+    <h3>Change the view</h3>
+    <div>
+        <button id="button-layer">  layer   </button>
+        <button id="button-row">    row     </button>
+        <button id="button-column"> column  </button>
+    </div>
+    <div class="solution-changer">
+        <h3 class="solution-changer">Solution changing</h3>
+        <button id="prev">
+            <img src="svg/next.svg" height="25px" id="prev-img" alt="prev"></img>
+        </button>
+        <span id="solution">1</span>
+        <button id="next">
+            <img src="svg/next.svg" height="25px" id="next-img" alt="next"></img>
+        </button>
+    </div>
+
+    <div class="controls">
+        <button id="reset">Reset</button>
+        <button id="solve">Solve</button>
+    </div>
+
+</div>
+
+<script type="module" src="main.js"></script>
+</body>
+</html>

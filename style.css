@@ -1,0 +1,138 @@
+:root{
+    --cell-length: 25px;
+}
+
+p{
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.pieces-holder{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 50px;
+}
+
+.cell{
+    width: var(--cell-length);
+    height: var(--cell-length);
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0;
+}
+
+/* removes gaps between rows */
+.piece table tbody tr{
+    line-height: 0;
+
+}
+
+.piece{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 1%;
+    width: 100px;
+}
+
+.piece table{
+    pointer-events: none;
+}
+
+.chosen{
+    border: cornflowerblue 2px solid;
+}
+
+#pieces{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.rotate-button{
+    position: absolute;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transform: translateX(-200%) translateY(-300%);
+    z-index: 100;
+}
+
+.mirror-button{
+    position: absolute;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transform: translateX(-50%) translateY(-300%);
+    z-index: 100;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.controls button:hover {
+    background-color: #555;
+}
+
+.controls button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.solution-changer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    transform: scaleX(0);
+    overflow: hidden;
+}
+
+.solution-changer button {
+    padding: 10px 10px;
+    margin: 0 10px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#prev-img{
+    rotate: 180deg;
+}
+
