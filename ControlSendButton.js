@@ -11,7 +11,7 @@ export class ControlSendButton{
     buttonHandler(){
         this.close_connection();
 
-        this.eventSource = this.startSSE(JSON.stringify(this.pyramid), this.onMessage, this.onError);
+        this.eventSource = this.startSSE(JSON.stringify(this.pyramid.virtualBoard), this.onMessage, this.onError);
     }
 
     close_connection(){
