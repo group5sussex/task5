@@ -115,7 +115,7 @@ body {
     cursor: not-allowed;
 }
 
-.solution-changer {
+#solution-changer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -134,5 +134,9 @@ body {
 
 #prev-img{
     rotate: 180deg;
+}
+
+.used{
+    background-color: rgba(159, 57, 151, 0.32);
 }
 

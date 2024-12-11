@@ -29,13 +29,9 @@ export class ControlPieces {
     }){
         this.pieces = pieces;
         this.colors = colors;
-        // Array with length of pieces, each i-th element is status of i-th piece (0 - not used, 1 - used)
         this.usedPieces = new Array(this.pieces.length).fill(0);
         this.statePieces = this._createPiecesStateHolder();
-        // Index of chosen piece, 0 - no piece chosen, rest - index of piece
         this.chosenPiece = 0;
-
-        this.virtualBoard = this._createVirtualBoard(sizeMaxPyramid);
     }
 
     // event handler that handles click on rotate button by rotating chosenPiece and saving in this.pieces, there is attribute data-pieceId in html that has index of piece
@@ -50,24 +46,6 @@ export class ControlPieces {
         if (this.chosenPiece === 0) return;
 
         this.pieces[this.chosenPiece] = this.mirrorPiece(this.chosenPiece);
-    }
-
-    _createVirtualBoard(size){
-        let result = [];
-
-        for(let i = 0; i < size; i++){
-            let layer = [];
-            for(let j = 0; j < i; j++){
-                let row = [];
-                for(let k = 0; k < i; k++){
-                    row.push(0);
-                }
-                layer.push(row);
-            }
-            result.push(layer);
-        }
-
-        return result;
     }
 
     _createPiecesStateHolder(){
@@ -109,42 +87,6 @@ export class ControlPieces {
         return result;
     }
 
-
-    _copyVirtualBoard(vBoard){
-        let result = [];
-
-        for(let i = 0; i < vBoard.length; i++){
-            let layer = [];
-            for(let j = 0; j < vBoard[i].length; j++){
-                let row = [];
-                for(let k = 0; k < vBoard[i][j].length; k++){
-                    row.push(vBoard[i][j][k]);
-                }
-                layer.push(row);
-            }
-            result.push(layer);
-        }
-
-        return result;
-    }
-
-    placeFigureOnLayer(layer, figure, x, y) {
-        let copy = this._copyVirtualBoard(this.virtualBoard);
-
-        for (let i = 0; i < figure.length; i++) {
-            if (figure[i].length > copy[layer].length)                              return;
-
-            for (let j = 0; j < figure[i].length; j++) {
-                if (x + i >= copy[layer].length || y + j >= copy[layer][i].length)  return;
-                if (copy[layer][x + i][y + j] !== 0 && figure[i][j] !== 0)          return;
-                if (figure[i][j] === 0)                                             continue;
-
-
-                copy[layer][x + i][y + j] = figure[i][j];
-            }
-        }
-    }
-
     rotatePiece(pieceId){
         let piece = this.pieces[pieceId];
         let state = this.statePieces[pieceId];
@@ -163,5 +105,11 @@ export class ControlPieces {
         state.mirror = (state.mirror + 1) % 2;
         this.pieces[pieceId] = mirrored;
         return mirrored
+    }
+
+    reset(){
+        this.usedPieces = new Array(this.pieces.length).fill(0);
+        this.statePieces = this._createPiecesStateHolder();
+        this.chosenPiece = 0;
     }
 }

@@ -87,7 +87,8 @@ export class Pyramid{
                         this.pyramidHolder[i][j][k].material.color.set(this.defaultColor);
                         this.pyramidHolder[i][j][k].userData.pieceId = 0;
                     } else {
-                        this.pyramidHolder[i][j][k].material.color.set(parseInt(this.colors[virtualBoard[i][j][k]], 16));
+                        let {r, g, b} = this._transformColorFromHexToRgb(this.colors[virtualBoard[i][j][k]]) ;
+                        this.pyramidHolder[i][j][k].material.color.set(`rgb(${r}, ${g}, ${b})`);
                         this.pyramidHolder[i][j][k].userData.pieceId = virtualBoard[i][j][k];
                     }
                 }
@@ -142,8 +143,6 @@ export class Pyramid{
         return new THREE.Mesh(geometry, material);
     };
 
-
-
     _createVirtualBoard(){
         let result = [];
 
@@ -159,5 +158,19 @@ export class Pyramid{
             result.push(layer);
         }
         return result
+    }
+
+    reset(){
+        this._virtualBoard = this._createVirtualBoard();
+        this._virtualToRealBoard(this.virtualBoard);
+    }
+
+    _transformColorFromHexToRgb(hex){
+        let result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
     }
 }
