@@ -40,7 +40,7 @@ const init = () => {
         pyramid,
         document.getElementById("solution-changer"));
     let resetButton = document.getElementById("reset");
-    let controlResetButton = new ControlResetButton(resetButton, pyramid, controlPieces, render, controlSolutions);
+    let controlResetButton = new ControlResetButton(resetButton, pyramid, piecesControl, render, controlSolutions);
     let sendButton = document.getElementById("solve");
 
 
