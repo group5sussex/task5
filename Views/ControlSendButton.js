@@ -90,9 +90,75 @@ export class ControlSendButton{
         return vBoard
     }
 
+    _vBoardToSolution(vBoard){
+        let solution = {};
+        for (let i = 0; i < vBoard.length; i++) {
+            for (let j = 0; j < vBoard[i].length; j++) {
+                for (let k = 0; k < vBoard[i][j].length; k++) {
+                    if (vBoard[i][j][k] !== 0) {
+                        if (solution[vBoard[i][j][k]] === undefined) {
+                            solution[vBoard[i][j][k]] = [];
+                        }
+                        solution[vBoard[i][j][k]].push([k, j, i]);
+                    }
+                }
+            }
+        }
+
+        return solution
+    }
+
+    _unFixCoordinates(solution) {
+        let fixedSolution = {};
+        for (const key in solution) {
+            fixedSolution[key] = solution[key].map((position) => {
+                return [position[0], position[1], 4-position[2]];
+            });
+        }
+        return fixedSolution;
+    }
+
+    _unFixKeys(data) {
+        let solution = {}
+        for (const key in data) {
+            solution[parseInt(key) + 54] = data[key];
+        }
+        return solution
+    }
+
+    _fromObjToArr(solution){
+        let result = [];
+
+        for (const key in solution) {
+            result.push({[key]: solution[key]});
+        }
+
+        return result
+    }
+
+    _prepareOutput(){
+        let sendingData = this._vBoardToSolution(this.pyramid.virtualBoard)
+        sendingData = this._unFixCoordinates(sendingData)
+        sendingData = this._unFixKeys(sendingData)
+        sendingData = this._fromObjToArr(sendingData)
+        return sendingData
+    }
+
     async _sendGetRequest() {
+        let sendingData = this._prepareOutput();
+        console.log('Sending Data:', JSON.stringify(sendingData))
+
         try {
-            const response = await fetch(`${this.url}/?positions=${encodeURIComponent(JSON.stringify(this.pyramid.virtualBoard))}`);
+            const response = await fetch(`${this.url}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({
+                    "initial_state": sendingData
+                })
+            });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
