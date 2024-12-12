@@ -14,19 +14,19 @@ export class ControlPieces {
             11: [[0, 11], [11, 11]],
             12: [[12, 12, 0], [0, 12, 12], [0, 0, 12]]
         }, colors = {
-        1: '0x005F73FF',
-        2: '0x0A9396FF',
-        3: '0x94D2BDFF',
-        4: '0xE9D8A6FF',
-        5: '0xEE9B00FF',
-        6: '0xEE9B00FF',
-        7: '0xBB3E03FF',
-        8: '0xBB3E03FF',
-        9: '0x9B2226FF',
-        10: '0xA4363AFF',
-        11: '0xC7652CFF',
-        12: '0xD28B55FF',
-    }){
+            1: "0xFF0000FF",  // Red
+            2: "0x00FF00FF",  // Green
+            3: "0x0000FFFF",  // Blue
+            4: "0xFFFF00FF",  // Yellow
+            5: "0xFF00FFFF",  // Magenta
+            6: "0x00FFFFFF",  // Cyan
+            7: "0x800000FF",  // Maroon
+            8: "0x808000FF",  // Olive
+            9: "0x008080FF",  // Teal
+            10: "0x800080FF", // Purple
+            11: "0xFFA500FF", // Orange
+            12: "0xA52A2AFF"  // Brown
+        }){
         this.pieces = pieces;
         this.colors = colors;
         this.usedPieces = new Array(this.pieces.length).fill(0);
