@@ -14,9 +14,8 @@ export class ControlResetButton{
     }
 
     buttonHandler(){
-        this.render = new Render();
-        this.controlPieces = new ControlPieces();
-        this.pyramid = new Pyramid(this.render, this.controlPieces.colors);
+        this.controlPieces.reset();
+        this.pyramid.reset()
         this.controlSolutions.reset();
     }
 }

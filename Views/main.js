@@ -33,7 +33,8 @@ const init = () => {
         document.getElementById("button-row"), document.getElementById("button-column"));
 
     let controlPiecePlacement = new ControlPiecePlacement(render, pyramid, piecesControl, controlView);
-    let controlSolutions = new ControlSolutions(document.getElementById("next"),
+    let controlSolutions = new ControlSolutions(
+        document.getElementById("next"),
         document.getElementById("prev"),
         document.getElementById("solution"),
         pyramid,
@@ -43,7 +44,7 @@ const init = () => {
     let sendButton = document.getElementById("solve");
 
 
-    let controlSendButton = new ControlSendButton(controlSolutions, sendButton, pyramid, "/kanoodle/submit");
+    let controlSendButton = new ControlSendButton(controlSolutions, sendButton, pyramid, "http://127.0.0.1:8000/kanoodle/3d/submit");
 }
 
 if ( WebGL.isWebGL2Available() ) {
