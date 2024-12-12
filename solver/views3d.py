@@ -47,42 +47,6 @@ pyramid = {0: np.zeros((5, 5)),
            4: np.zeros((1, 1))}
 
 
-def cell_id(x, y, z):
-    offset = sum((5-l)*(5-l) for l in range(int(z)))
-    return offset + x * (5-z) + y
-
-
-def cell_position(cell_id):
-
-    pyramid_size = 5  # Base layer size (5x5)
-
-    # Step 1: Determine the layer (z) where the cell belongs
-    cumulative_cells = 0
-    for z in range(pyramid_size):
-        layer_size = (pyramid_size - z) ** 2  # Number of cells in layer z
-        if cumulative_cells + layer_size > cell_id:
-            break
-        cumulative_cells += layer_size
-
-    # Step 2: Find local index within the layer
-    local_index = cell_id - cumulative_cells
-
-    # Step 3: Map local index to (x, y) within the layer
-    layer_width = pyramid_size - z
-    x = local_index % layer_width
-    y = local_index // layer_width
-
-    return (y, x, z)
-
-
-def is_valid_coordinate(x, y, z):
-    if z not in PYRAMID_LAYERS:
-        return False
-
-    max_x, max_y = PYRAMID_LAYERS[z]
-
-    return 0 <= x < max_x and 0 <= y < max_y
-
 
 def rotation_z(angle_degrees):
 
@@ -122,6 +86,44 @@ def rotation_second_axis(angle_degrees):
     return np.round(rotation_matrix, decimals=10)
 
 
+
+def cell_id(x, y, z):
+    offset = sum((5-l)*(5-l) for l in range(int(z)))
+    return offset + x * (5-z) + y
+
+
+def cell_position(cell_id):
+
+    pyramid_size = 5  # Base layer size (5x5)
+
+    # Step 1: Determine the layer (z) where the cell belongs
+    cumulative_cells = 0
+    for z in range(pyramid_size):
+        layer_size = (pyramid_size - z) ** 2  # Number of cells in layer z
+        if cumulative_cells + layer_size > cell_id:
+            break
+        cumulative_cells += layer_size
+
+    # Step 2: Find local index within the layer
+    local_index = cell_id - cumulative_cells
+
+    # Step 3: Map local index to (x, y) within the layer
+    layer_width = pyramid_size - z
+    x = local_index % layer_width
+    y = local_index // layer_width
+
+    return (y, x, z)
+
+
+def is_valid_coordinate(x, y, z):
+    if z not in PYRAMID_LAYERS:
+        return False
+
+    max_x, max_y = PYRAMID_LAYERS[z]
+
+    return 0 <= x < max_x and 0 <= y < max_y
+
+
 def reflection_matrix(plane):
     if plane == '':
         return np.eye(3)
@@ -129,6 +131,7 @@ def reflection_matrix(plane):
         return np.array([[1, 0, 0], [0, -1, 0], [0, 0, 1]])
     elif plane == 'yz':
         return np.array([[-1, 0, 0], [0, 1, 0], [0, 0, 1]])
+
 
 
 def generate_rotations(piece):
