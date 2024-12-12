@@ -164,6 +164,7 @@ def generate_3d_transformations(piece, diagonal_check):
             for dx in range(5 - piece_width + 1):  # Restrict translation to board width
                 translated_piece = translate_piece(rotation, dy, dx)
                 if is_valid_in_diagonal(translated_piece, diagonal_check):
+                    translated_piece=[(y, x, 4-x-y) for y, x, z in translated_piece]
                     valid_transformations.add(tuple(sorted(translated_piece)))
 
     return valid_transformations
