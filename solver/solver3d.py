@@ -34,6 +34,11 @@ class Board:
     @staticmethod
     def is_in_lower_left(y, x, z):
         return y + x <= 4
+    
+    @staticmethod
+    def is_in_second_diagonal(y, x, z):  # is_in_lower_left
+        # return 0 <= (y - x) <= 4
+        return y >= x and 0 <= y < 5 and 0 <= x < 5
 
     @staticmethod
     def Pieces(piece_id):
@@ -239,9 +244,17 @@ def generate_3d_incidence_matrix(pieces):
         incidence_matrix = np.empty((0, Board.WIDTH_INCIDENCE), dtype=bool)
 
         for piece_id, piece in pieces.items():
-            upper_left_transformations = generate_3d_transformations(
+            first_diagonal_transformations = generate_3d_transformations(
                 piece, Board.is_in_upper_left)
-            for transformation in upper_left_transformations:
+
+            second_diagonal_transformations = generate_3d_transformations(
+                piece, Board.is_in_second_diagonal)
+
+            transformations_3d = set()
+            transformations_3d.update(first_diagonal_transformations)
+            transformations_3d.update(second_diagonal_transformations)
+
+            for transformation in transformations_3d:
                 occupied_ids = [cell_id(x, y, z) for x, y, z in transformation]
                 row_incidence = np.zeros(Board.WIDTH_INCIDENCE)
 
@@ -254,6 +267,7 @@ def generate_3d_incidence_matrix(pieces):
                     incidence_matrix, [row_incidence], axis=0)
 
     return incidence_matrix
+
 
 
 def generate_incidence_matrix(pieces, initial_state={}):
