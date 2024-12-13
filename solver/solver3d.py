@@ -34,7 +34,7 @@ class Board:
     @staticmethod
     def is_in_lower_left(y, x, z):
         return y + x <= 4
-    
+
     @staticmethod
     def is_in_second_diagonal(y, x, z):  # is_in_lower_left
         # return 0 <= (y - x) <= 4
@@ -222,9 +222,15 @@ def generate_3d_transformations(piece, diagonal_check):
         for dy in range(5 - piece_height + 1):  # Restrict translation to board height
             for dx in range(5 - piece_width + 1):  # Restrict translation to board width
                 translated_piece = translate_piece(rotation, dy, dx)
+
                 if is_valid_in_diagonal(translated_piece, diagonal_check):
-                    translated_piece = [(y, x, 4-x-y)
-                                        for y, x, z in translated_piece]
+                    if diagonal_check == Board.is_in_upper_left:
+                        translated_piece = [(y, x, 4-x-y)
+                                            for y, x, z in translated_piece]
+                    elif diagonal_check == Board.is_in_second_diagonal:
+                        translated_piece = [(x, x, y-x)
+                                            for y, x, z in translated_piece]
+
                     valid_transformations.add(tuple(sorted(translated_piece)))
 
     return valid_transformations
@@ -269,7 +275,6 @@ def generate_3d_incidence_matrix(pieces):
     return incidence_matrix
 
 
-
 def generate_incidence_matrix(pieces, initial_state={}):
 
     new_pieces = copy.deepcopy(Board.list_pieces())
@@ -303,10 +308,9 @@ def generate_incidence_matrix(pieces, initial_state={}):
 @csrf_exempt
 def submit(request):
     # initial_state = {56: [(0, 1, 0), (0, 1, 1), (1, 2, 1), (0, 1, 2), (1, 2, 2)]}
-    #data = request.GET.get('positions', '{}')
+    # data = request.GET.get('positions', '{}')
     data = json.loads(request.body)
     # initial_state = data.get('initial_state', [])
-
 
     initial_state = {}
     initial_state_list = data.get('initial_state', [])
@@ -318,8 +322,6 @@ def submit(request):
             initial_state[key] = [tuple(coords) for coords in value]
 
     print(initial_state)
-
-
 
     incidence_matrix = generate_incidence_matrix(
         pieces=Board.list_pieces(), initial_state=initial_state)
@@ -334,7 +336,7 @@ def submit(request):
     print("solusions: ", result)
     print("len solusions: ", len(result))
 
-    response = JsonResponse(result,safe=False)
+    response = JsonResponse(result, safe=False)
     # print("solusions: " ,response)
     return response
 
